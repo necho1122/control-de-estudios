@@ -1,36 +1,126 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Sistema de Control de Estudios
 
-## Getting Started
+## Descripción General
 
-First, run the development server:
+Este proyecto es un **Sistema de Control de Estudios** desarrollado con **Next.js**, **React**, **Redux Toolkit** y **Firebase**. Permite la gestión de alumnos de una institución educativa, incluyendo autenticación segura, registro, consulta, edición y eliminación de datos de estudiantes, así como la administración de sesiones de usuario.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Funcionalidades Principales
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- **Autenticación de Usuarios:**  
+  Utiliza Firebase Authentication para el inicio de sesión seguro. Incluye recuperación de contraseña mediante correo electrónico.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Gestión de Alumnos:**  
+  Permite agregar, editar, eliminar y visualizar alumnos. Los datos se almacenan y consultan en tiempo real desde Firebase Firestore.
 
-## Learn More
+- **Visualización y Búsqueda:**  
+  Los alumnos se muestran en una tabla ordenada por grado (de Preescolar a 6to) y sección (A, B, ...). Incluye buscador por nombre.
 
-To learn more about Next.js, take a look at the following resources:
+- **Detalle de Alumno:**  
+  Al hacer clic en un alumno, se muestra un modal con toda la información personal y académica, así como los datos del representante.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Protección de Rutas:**  
+  Solo los usuarios autenticados pueden acceder a la información de alumnos. Si la sesión expira o el usuario no está autenticado, es redirigido al login.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Diseño Moderno y Responsive:**  
+  Interfaz profesional, moderna y adaptable a dispositivos móviles y escritorio, usando Tailwind CSS.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Estructura de Carpetas y Módulos
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **/app**
+
+  - `layout.js`: Layout principal, aplica el proveedor de Redux y la protección de rutas.
+  - `page.js`: Página principal, muestra la tabla de alumnos y controles.
+  - `login/page.jsx`: Página de inicio de sesión y recuperación de contraseña.
+  - `ReduxProvider.jsx`: Proveedor global de Redux, sincroniza el estado de autenticación con Firebase.
+
+- **/components**
+
+  - `MainInformation.jsx`: Componente principal de gestión y visualización de alumnos.
+  - `AlumnosTable.jsx`: Tabla que muestra los alumnos con opciones de editar y eliminar.
+  - `AlumnoModal.jsx`: Modal reutilizable para agregar y editar alumnos.
+  - `DetalleAlumnoModal.jsx`: Modal para mostrar toda la información de un alumno de forma estructurada y profesional.
+  - `ProtectedRoute.js`: Componente que protege rutas, solo accesibles para usuarios autenticados.
+
+- **/lib**
+
+  - `firebase.js`: Configuración de Firebase y funciones para interactuar con Firestore y Auth (agregar, obtener, editar, eliminar alumnos, escuchar cambios de sesión).
+
+- **/store**
+  - `store.js`: Configuración del store de Redux.
+  - `/features/auth/authSlice.js`: Slice de autenticación, maneja el estado de login/logout.
+
+---
+
+## Flujo de la Aplicación
+
+1. **Inicio de Sesión:**  
+   El usuario accede a `/login`, ingresa sus credenciales y, si son válidas, es autenticado mediante Firebase. Si olvida su contraseña, puede solicitar un enlace de recuperación.
+
+2. **Protección de Rutas:**  
+   Al autenticarse, el usuario es redirigido automáticamente al dashboard principal. Si no está autenticado, cualquier intento de acceder a rutas protegidas lo redirige al login.
+
+3. **Gestión de Alumnos:**
+
+   - **Visualización:**  
+     Se muestra una tabla con los alumnos ordenados por grado y sección.
+   - **Búsqueda:**  
+     El usuario puede buscar alumnos por nombre en tiempo real.
+   - **Detalle:**  
+     Al hacer clic en una fila, se abre un modal con toda la información del alumno.
+   - **Agregar/Editar:**  
+     Se pueden agregar nuevos alumnos o editar los existentes mediante formularios modales.
+   - **Eliminar:**  
+     Se puede eliminar un alumno con confirmación.
+
+4. **Cierre de Sesión:**  
+   El usuario puede cerrar sesión desde la interfaz principal, lo que elimina la sesión local y en Firebase.
+
+---
+
+## Tecnologías Utilizadas
+
+- **Next.js**: Framework React para aplicaciones web modernas.
+- **React**: Librería principal para la UI.
+- **Redux Toolkit**: Manejo de estado global.
+- **Firebase**:
+  - **Authentication**: Manejo de usuarios y sesiones.
+  - **Firestore**: Base de datos NoSQL en tiempo real.
+- **Tailwind CSS**: Framework de estilos para un diseño moderno y responsive.
+
+---
+
+## Consideraciones Técnicas
+
+- **Persistencia de Sesión:**  
+  La sesión de usuario se mantiene activa incluso al recargar la página, gracias a la integración de Firebase Auth y el listener global en ReduxProvider.
+
+- **Escalabilidad:**  
+  El código está modularizado y componentizado para facilitar el mantenimiento y la extensión de funcionalidades.
+
+- **Seguridad:**  
+  Las rutas están protegidas y los datos sensibles no se exponen en el frontend.
+
+---
+
+## Cómo Ejecutar el Proyecto
+
+1. Instala las dependencias:
+   ```
+   npm install
+   ```
+2. Inicia el servidor de desarrollo:
+   ```
+   npm run dev
+   ```
+3. Accede a la aplicación en [http://localhost:3000](http://localhost:3000)
+
+---
+
+## Créditos
+
+Desarrollado por [Tu Nombre]  
+Proyecto universitario - Sistema de Control de Estudios
