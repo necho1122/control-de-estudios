@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<mxfile host="app.diagrams.net">
+  <diagram name="Flujo del Sistema">Inicio --&gt; Inicio de Sesión
+Inicio de Sesión --&gt; Recuperación de Contraseña
+Inicio de Sesión --&gt; Validar credenciales
+Validar credenciales --&gt; Redirigir al Dashboard
+Dashboard --&gt; Buscar Alumnos
+Dashboard --&gt; Agregar Alumno
+Dashboard --&gt; Editar Alumno
+Dashboard --&gt; Eliminar Alumno
+Dashboard --&gt; Ver Detalle Alumno
+Dashboard --&gt; Cerrar Sesión
+Agregar Alumno --&gt; Formulario Alumno
+Editar Alumno --&gt; Formulario Alumno
+Formulario Alumno --&gt; Validar y Guardar en Firebase
+Eliminar Alumno --&gt; Confirmar Eliminación
+Ver Detalle Alumno --&gt; Mostrar Modal Detalle
+Cerrar Sesión --&gt; Volver a Inicio de Sesión</diagram>
+</mxfile>
