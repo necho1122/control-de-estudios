@@ -14,7 +14,7 @@ export default function ProtectedRoute({ children }) {
 		}
 	}, [isAuthenticated, router]);
 
-	if (!isAuthenticated) return null; // Evita renderizar hasta redirigir
+	if (!isAuthenticated) return null;
 
 	return children;
 }
