@@ -18,7 +18,7 @@ function AlumnosTable({ alumnos, onEdit, onDelete, fetching, onRowClick }) {
 			const anio = alumno.fecha_nacimiento?.split('/')?.[2] || '';
 			const key = repCedula + '-' + anio;
 			const grupo = grupos[key];
-			const index = grupo.findIndex(a => a.id === alumno.id) + 1;
+			const index = grupo.findIndex((a) => a.id === alumno.id) + 1;
 			const anio2 = anio.slice(-2);
 			const cedulaEscolar = `${index}${anio2}${repCedula}`;
 			return { ...alumno, cedulaEscolar };
@@ -42,7 +42,10 @@ function AlumnosTable({ alumnos, onEdit, onDelete, fetching, onRowClick }) {
 				<tbody>
 					{fetching ? (
 						<tr>
-							<td colSpan={7} className='text-center py-8'>
+							<td
+								colSpan={7}
+								className='text-center py-8'
+							>
 								<span className='text-gray-500 dark:text-gray-300'>
 									Cargando alumnos...
 								</span>
@@ -50,7 +53,10 @@ function AlumnosTable({ alumnos, onEdit, onDelete, fetching, onRowClick }) {
 						</tr>
 					) : alumnosConCedula.length === 0 ? (
 						<tr>
-							<td colSpan={7} className='text-center py-8'>
+							<td
+								colSpan={7}
+								className='text-center py-8'
+							>
 								<span className='text-gray-500 dark:text-gray-300'>
 									No hay alumnos registrados.
 								</span>
@@ -61,13 +67,19 @@ function AlumnosTable({ alumnos, onEdit, onDelete, fetching, onRowClick }) {
 							<tr
 								key={alumno.id}
 								className='border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer'
-								onClick={e => {
-									if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'svg' && e.target.tagName !== 'path') {
+								onClick={(e) => {
+									if (
+										e.target.tagName !== 'BUTTON' &&
+										e.target.tagName !== 'svg' &&
+										e.target.tagName !== 'path'
+									) {
 										onRowClick(alumno.id);
 									}
 								}}
 							>
-								<td className='p-4 font-mono text-indigo-700 dark:text-indigo-300'>{alumno.cedulaEscolar}</td>
+								<td className='p-4 font-mono text-indigo-700 dark:text-indigo-300'>
+									{alumno.cedulaEscolar}
+								</td>
 								<td className='p-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
 									{alumno.nombre}
 								</td>
@@ -80,14 +92,20 @@ function AlumnosTable({ alumnos, onEdit, onDelete, fetching, onRowClick }) {
 										<button
 											type='button'
 											className='py-2 px-4 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300'
-											onClick={e => { e.stopPropagation(); onEdit(alumno.id); }}
+											onClick={(e) => {
+												e.stopPropagation();
+												onEdit(alumno.id);
+											}}
 										>
 											Editar
 										</button>
 										<button
 											type='button'
 											className='py-2 px-4 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300'
-											onClick={e => { e.stopPropagation(); onDelete(alumno.id); }}
+											onClick={(e) => {
+												e.stopPropagation();
+												onDelete(alumno.id);
+											}}
 										>
 											Eliminar
 										</button>
