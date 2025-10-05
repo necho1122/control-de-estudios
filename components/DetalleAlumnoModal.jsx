@@ -98,6 +98,14 @@ function DetalleAlumnoModal({ open, onClose, alumno }) {
 									{alumno.seccion}
 								</span>
 							</li>
+							<li>
+								<span className='font-medium text-gray-600 dark:text-gray-300'>
+									Año escolar:
+								</span>{' '}
+								<span className='text-gray-900 dark:text-white'>
+									{alumno.anio_escolar}
+								</span>
+							</li>
 						</ul>
 					</div>
 				</div>

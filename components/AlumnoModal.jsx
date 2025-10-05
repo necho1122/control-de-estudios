@@ -97,6 +97,14 @@ function AlumnoModal({
 							placeholder='Sección'
 							required
 						/>
+						<input
+							name='anio_escolar'
+							value={form.anio_escolar}
+							onChange={onChange}
+							className='border rounded p-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 border-gray-300 dark:border-gray-700'
+							placeholder='Año escolar (ej: 2023-2024)'
+							required
+						/>
 					</div>
 					<div className='border-t pt-3 mt-2 border-gray-200 dark:border-gray-700'>
 						<h3 className='font-semibold mb-2 text-sm text-gray-900 dark:text-white'>

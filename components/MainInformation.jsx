@@ -28,6 +28,7 @@ function MainInformation() {
 		sexo: '',
 		grado: '',
 		seccion: '',
+		anio_escolar: '', // <-- Añadido aquí
 		representante: {
 			nombre: '',
 			parentesco: '',
@@ -44,6 +45,8 @@ function MainInformation() {
 	const [alumnos, setAlumnos] = useState([]);
 	const [fetching, setFetching] = useState(true);
 	const [search, setSearch] = useState('');
+	const [filtroAnio, setFiltroAnio] = useState('');
+	const [filtroGrado, setFiltroGrado] = useState('');
 	const [filteredAlumnos, setFilteredAlumnos] = useState([]);
 	const dispatch = useDispatch();
 	const auth = getAuth(app);
@@ -80,11 +83,18 @@ function MainInformation() {
 		});
 
 		setFilteredAlumnos(
-			alumnosOrdenados.filter((alumno) =>
-				alumno.nombre?.toLowerCase().includes(search.toLowerCase())
-			)
+			alumnosOrdenados.filter((alumno) => {
+				const coincideNombre = alumno.nombre
+					?.toLowerCase()
+					.includes(search.toLowerCase());
+				const coincideAnio = filtroAnio
+					? alumno.anio_escolar === filtroAnio
+					: true;
+				const coincideGrado = filtroGrado ? alumno.grado === filtroGrado : true;
+				return coincideNombre && coincideAnio && coincideGrado;
+			})
 		);
-	}, [search, alumnos]);
+	}, [search, alumnos, filtroAnio, filtroGrado]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -111,6 +121,7 @@ function MainInformation() {
 				...form,
 				edad: Number(form.edad),
 				fecha_nacimiento: fechaFormateada,
+				anio_escolar: form.anio_escolar, // <-- Asegura que se envía
 			};
 			await agregarAlumno(alumno);
 			setShowModal(false);
@@ -122,6 +133,7 @@ function MainInformation() {
 				sexo: '',
 				grado: '',
 				seccion: '',
+				anio_escolar: '', // <-- Resetear también aquí
 				representante: {
 					nombre: '',
 					parentesco: '',
@@ -156,6 +168,7 @@ function MainInformation() {
 				fecha_nacimiento: alumno.fecha_nacimiento
 					? alumno.fecha_nacimiento.split('/').reverse().join('-')
 					: '',
+				anio_escolar: alumno.anio_escolar || '', // <-- Añadido aquí
 				representante: {
 					...(alumno.representante || {
 						nombre: '',
@@ -195,6 +208,7 @@ function MainInformation() {
 				...editForm,
 				edad: Number(editForm.edad),
 				fecha_nacimiento: fechaFormateada,
+				anio_escolar: editForm.anio_escolar, // <-- Asegura que se envía
 			};
 			await actualizarAlumno(editId, alumno);
 			setEditModal(false);
@@ -233,15 +247,54 @@ function MainInformation() {
 								</span>
 							</h5>
 						</div>
-						<input
-							type='search'
-							name='search'
-							id='search'
-							placeholder='Buscar alumno...'
-							className='border border-gray-300 rounded-lg p-2'
-							value={search}
-							onChange={(e) => setSearch(e.target.value)}
-						/>
+						<div className='flex items-center space-x-2'>
+							<input
+								type='search'
+								name='search'
+								id='search'
+								placeholder='Buscar alumno...'
+								className='border border-gray-300 rounded-lg p-2'
+								value={search}
+								onChange={(e) => setSearch(e.target.value)}
+							/>
+							{/* Filtro por año escolar */}
+							<select
+								className='border border-gray-300 rounded-lg p-2'
+								value={filtroAnio}
+								onChange={(e) => setFiltroAnio(e.target.value)}
+							>
+								<option value=''>Año escolar</option>
+								{/* Opciones únicas de años escolares */}
+								{Array.from(
+									new Set(alumnos.map((a) => a.anio_escolar).filter(Boolean))
+								).map((anio) => (
+									<option
+										key={anio}
+										value={anio}
+									>
+										{anio}
+									</option>
+								))}
+							</select>
+							{/* Filtro por grado escolar */}
+							<select
+								className='border border-gray-300 rounded-lg p-2'
+								value={filtroGrado}
+								onChange={(e) => setFiltroGrado(e.target.value)}
+							>
+								<option value=''>Grado</option>
+								{['Preescolar', '1ro', '2do', '3ro', '4to', '5to', '6to'].map(
+									(grado) => (
+										<option
+											key={grado}
+											value={grado}
+										>
+											{grado}
+										</option>
+									)
+								)}
+							</select>
+						</div>
 						<div className='flex-shrink-0 flex flex-col items-start md:flex-row md:items-center lg:justify-end space-y-3 md:space-y-0 md:space-x-3'>
 							<button
 								type='button'

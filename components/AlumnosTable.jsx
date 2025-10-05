@@ -36,6 +36,7 @@ function AlumnosTable({ alumnos, onEdit, onDelete, fetching, onRowClick }) {
 						<th className='p-4'>Sexo</th>
 						<th className='p-4'>Grado</th>
 						<th className='p-4'>Sección</th>
+						<th className='p-4'>Año escolar</th>
 						<th className='p-4'>Acciones</th>
 					</tr>
 				</thead>
@@ -43,7 +44,7 @@ function AlumnosTable({ alumnos, onEdit, onDelete, fetching, onRowClick }) {
 					{fetching ? (
 						<tr>
 							<td
-								colSpan={7}
+								colSpan={8}
 								className='text-center py-8'
 							>
 								<span className='text-gray-500 dark:text-gray-300'>
@@ -54,7 +55,7 @@ function AlumnosTable({ alumnos, onEdit, onDelete, fetching, onRowClick }) {
 					) : alumnosConCedula.length === 0 ? (
 						<tr>
 							<td
-								colSpan={7}
+								colSpan={8}
 								className='text-center py-8'
 							>
 								<span className='text-gray-500 dark:text-gray-300'>
@@ -87,6 +88,7 @@ function AlumnosTable({ alumnos, onEdit, onDelete, fetching, onRowClick }) {
 								<td className='p-4'>{alumno.sexo}</td>
 								<td className='p-4'>{alumno.grado}</td>
 								<td className='p-4'>{alumno.seccion}</td>
+								<td className='p-4'>{alumno.anio_escolar}</td>
 								<td className='p-4'>
 									<div className='flex space-x-2'>
 										<button
